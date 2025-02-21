@@ -1,0 +1,31 @@
+.filter-bar-wrapper {
+  width: 100%;
+  background-color: #f7f7f7;
+  padding: 20px;
+
+}
+
+  
+  .modern-filter-bar {
+    background-color: #51a097; /* Samma HEX som headern */
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 20px;
+  }
+  
+  .modern-filter-bar .form-label {
+    font-weight: 700;
+  }
+  
+  .modern-filter-bar .form-control,
+  .modern-filter-bar .form-select,
+  .modern-filter-bar .form-range {
+    border-radius: 4px;
+    box-shadow: none;
+  }
+  .filter-bar .form-label {
+    font-weight: 700 !important;
+    font-family: 'Poppins', sans-serif;
+  }
+  

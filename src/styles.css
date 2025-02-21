@@ -1,0 +1,62 @@
+/* styles.css */
+
+/* Hero Section */
+.hero-section {
+    background: url('/hero-image.jpg') center center/cover no-repeat;
+    height: 30vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  
+  .hero-section::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  
+  .hero-section .container {
+    position: relative;
+    z-index: 2;
+  }
+  
+  .search-input {
+    max-width: 400px;
+    border-radius: 50px;
+    padding: 0.75rem 1.25rem;
+  }
+  
+  /* Modern CarCard Styling */
+  .modern-card {
+    transition: transform 0.3s ease;
+  }
+  
+  .modern-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .overlay-hover {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .modern-card:hover .overlay-hover {
+    opacity: 1;
+  }
+  
+  /* Navbar adjustments if needed */
+  .navbar-brand img {
+    max-height: 100px;
+  }
+  body {
+    font-family: 'Poppins', sans-serif;
+  }
+  .h2 {
+        font-weight: 700 !important;
+        font-family: 'Poppins', sans-serif;
+  }
+  
