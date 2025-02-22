@@ -1,3 +1,4 @@
+//imports
 import React, { useState, useEffect } from 'react';
 import HeroSection from './components/HeroSection';
 import FilterBar from './components/FilterBar';
