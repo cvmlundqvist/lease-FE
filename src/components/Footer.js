@@ -24,8 +24,8 @@ const Footer = () => {
           {/* Högra kolumn: Länkar */}
           <Col md={4} className="text-center text-md-end">
             <div className="footer-links">
-              <a href="/faq" className="footer-link d-block">Vanliga frågor</a>
-              <a href="/om-oss" className="footer-link d-block">Om oss</a>
+              <a href="/" className="footer-link d-block">Vanliga frågor</a>
+              <a href="/" className="footer-link d-block">Om oss</a>
             </div>
           </Col>
         </Row>

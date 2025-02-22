@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Form } from 'react-bootstrap';
+import { Row, Col, Form, Button } from 'react-bootstrap';
 import './FilterBar.css';
 
 const FilterBar = ({
@@ -11,8 +11,7 @@ const FilterBar = ({
   transmissions = [],
   carTypes = []
 }) => {
-  // We set totalPrice as an object with a fixed min value
-  const [filters, setFilters] = useState({
+  const defaultFilters = {
     brand: '',
     supplier: '',
     powertrain: '',
@@ -21,9 +20,12 @@ const FilterBar = ({
     bindingTime: 36,
     totalPrice: { min: totalPriceRange.min, max: totalPriceRange.max },
     minMileage: 0,
-  });
+  };
 
-  // Update filters live
+  // Vi sätter totalPrice som ett objekt med fast min-värde
+  const [filters, setFilters] = useState(defaultFilters);
+
+  // Uppdatera filter live
   useEffect(() => {
     onFilterChange(filters);
   }, [filters, onFilterChange]);
@@ -35,6 +37,10 @@ const FilterBar = ({
       }
       return { ...prev, [field]: value };
     });
+  };
+
+  const resetFilters = () => {
+    setFilters(defaultFilters);
   };
 
   return (
@@ -166,6 +172,12 @@ const FilterBar = ({
                 {filters.minMileage} mil/månad+
               </div>
             </Form.Group>
+          </Col>
+          {/* Lägg till en kolumn för "Nollställ filter"-knappen */}
+          <Col md={4} className="text-md-end">
+            <Button variant="dark" onClick={resetFilters}>
+              Nollställ filter
+            </Button>
           </Col>
         </Row>
       </div>
