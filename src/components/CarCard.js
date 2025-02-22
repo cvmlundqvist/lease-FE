@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, Modal } from 'react-bootstrap';
 import { FaRoad, FaBolt } from 'react-icons/fa';
-import './CarCard.css'; // Make sure to import the CSS file
+import './CarCard.css';
 
 const CarCard = ({ car }) => {
   const [showModal, setShowModal] = useState(false);
@@ -17,12 +17,29 @@ const CarCard = ({ car }) => {
     mileagePerMonth = !isNaN(yearMileage) ? (yearMileage / 12).toFixed(1) : car.mileagePerYear;
   }
 
+  // Bestäm bakgrundsfärg baserat på drivlina
+  const getPowertrainColor = () => {
+    if (car.powertrain.toLowerCase() === "el") {
+      return "#95edac"; 
+    } else if (car.powertrain.toLowerCase() === "bensin") {
+      return "#D2B48C"; 
+    }
+    return "#d3d3d3";
+  };
+
   return (
     <>
       <Card 
         className="mb-4 modern-card" 
         onClick={handleCardClick}
+        style={{ cursor: 'pointer' }}
       >
+        <div className="supplier-flag">
+          {car.supplier}
+        </div>
+        <div className="powertrain-flag" style={{ backgroundColor: getPowertrainColor() }}>
+          {car.powertrain}
+        </div>
         <Card.Img 
           variant="top" 
           src={car.imageUrl} 
@@ -32,12 +49,13 @@ const CarCard = ({ car }) => {
         <Card.Body>
           <Card.Title className="h2">{car.brand} {car.model}</Card.Title>
           <Card.Text>
-            Drivlina: {car.powertrain} | Växellåda: {car.transmission}<br />
+           <b>Totalpris: {car.totalPrice} kr</b> <br/>
+            Växellåda: {car.transmission}<br />
             Biltyp: {car.carType}<br />
             Bindningstid: {car.contractMonths} mån<br />
             <FaRoad /> Mil/månad: {mileagePerMonth} <br />
             {car.electricRange ? <span><FaBolt /> Räckvidd el: {car.electricRange} km</span> : ''}<br />
-            Totalpris: {car.totalPrice} kr
+            
           </Card.Text>
         </Card.Body>
       </Card>
