@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import HeroSection from './components/HeroSection';
 import FilterBar from './components/FilterBar';
 import CarList from './components/CarList';
+import Footer from './components/Footer';
 import api from './services/api';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.css';
@@ -76,6 +77,7 @@ function App() {
           : <CarList filters={filters} />
         }
       </div>
+      <Footer />
     </div>
   );
 }
