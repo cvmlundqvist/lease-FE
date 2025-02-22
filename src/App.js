@@ -39,6 +39,13 @@ function App() {
       });
   }, []);
 
+  // Extrahera unika värden från bil-datan för filteralternativ
+  const uniqueBrands = Array.from(new Set(cars.map(car => car.brand)));
+  const uniqueSuppliers = Array.from(new Set(cars.map(car => car.supplier)));
+  const uniquePowertrains = Array.from(new Set(cars.map(car => car.powertrain)));
+  const uniqueTransmissions = Array.from(new Set(cars.map(car => car.transmission)));
+  const uniqueCarTypes = Array.from(new Set(cars.map(car => car.carType)));
+
   const handleFilterChange = (newFilters) => {
     setFilters(prev => ({ ...prev, ...newFilters }));
   };
@@ -51,10 +58,19 @@ function App() {
     <div>
       <HeroSection onSearch={handleSearch} />
       <div className="container mt-4">
-        <FilterBar 
-          onFilterChange={handleFilterChange} 
-          totalPriceRange={{ min: 0, max: maxTotalPrice }} 
-        />
+        <div className="row">
+          <div className="col-12">
+            <FilterBar 
+              onFilterChange={handleFilterChange} 
+              totalPriceRange={{ min: 0, max: maxTotalPrice }} 
+              brands={uniqueBrands}
+              suppliers={uniqueSuppliers}
+              powertrains={uniquePowertrains}
+              transmissions={uniqueTransmissions}
+              carTypes={uniqueCarTypes}
+            />
+          </div>
+        </div>
         {loading 
           ? <div className="text-center mt-5">Laddar bilar...</div>
           : <CarList filters={filters} />

@@ -4,6 +4,6 @@
     left: 0%;
     z-index: 3;
     height: 40vw; /* 8% of viewport width */
-    max-height: 700px; /* Optional: cap the maximum height */
+    max-height: 400px; /* Optional: cap the maximum height */
   }
   
