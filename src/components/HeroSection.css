@@ -1,9 +1,9 @@
 .hero-logo {
     position: absolute;
-    top: 2%;
-    left: 5%;
+    top: 0%;
+    left: 0%;
     z-index: 3;
-    height: 20vw; /* 8% of viewport width */
-    max-height: 300px; /* Optional: cap the maximum height */
+    height: 40vw; /* 8% of viewport width */
+    max-height: 700px; /* Optional: cap the maximum height */
   }
   

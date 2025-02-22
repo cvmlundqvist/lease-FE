@@ -2,7 +2,6 @@
 
 /* Hero Section */
 .hero-section {
-    background: url('/hero-image.jpg') center center/cover no-repeat;
     height: 30vh;
     display: flex;
     align-items: center;

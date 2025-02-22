@@ -23,7 +23,7 @@ const HeroSection = ({ onSearch }) => {
       }}
     >
       {/* Logo in the top left corner */}
-      <img src="/logo-vit_text.png" alt="Logo" className="hero-logo" />
+      <img src="/5.png" alt="Logo" className="hero-logo" />
       
       <Container className="text-center text-white" style={{ position: 'relative', zIndex: 2 }}>
         <h1 className="display-4 fw-bold">Hitta din drömbil</h1>
@@ -31,7 +31,7 @@ const HeroSection = ({ onSearch }) => {
         <Form className="d-flex justify-content-center mt-4">
           <FormControl
             type="search"
-            placeholder="Sök efter märke, modell..."
+            placeholder="Sök efter märke eller modell..."
             className="me-2 search-input"
             aria-label="Sök"
             value={query}
