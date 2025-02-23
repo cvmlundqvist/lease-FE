@@ -50,7 +50,7 @@ const CarCard = ({ car }) => {
           <Card.Title className="h2">{car.brand} {car.model}</Card.Title>
           <Card.Text>
            <b>Totalpris: {car.totalPrice} kr</b> <br/>
-            Bindningstid: {car.contractMonths} månader<br />
+            Bindningstid: {car.contractMonths} mån<br />
             {car.electricRange ? <span>Räckvidd: {car.electricRange} km</span> : ''}<br />
             Växellåda: {car.transmission}<br />
             Biltyp: {car.carType}<br />
