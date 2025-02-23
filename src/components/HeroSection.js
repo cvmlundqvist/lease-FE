@@ -27,7 +27,7 @@ const HeroSection = ({ onSearch }) => {
       
       <Container className="text-center text-white" style={{ position: 'relative', zIndex: 2 }}>
         <h1 className="display-4 fw-bold">Hitta din drömbil</h1>
-        <p className="lead">Enkelt. Smidigt. Jämför moderna leasinglösningar.</p>
+        <p className="lead">Enkelt. Smidigt. Moderna leasinglösningar.</p>
         <Form className="d-flex justify-content-center mt-4">
           <FormControl
             type="search"
