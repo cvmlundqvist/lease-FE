@@ -51,12 +51,10 @@ const CarCard = ({ car }) => {
           <Card.Text>
            <b>Totalpris: {car.totalPrice} kr</b> <br/>
             Bindningstid: {car.contractMonths} månader<br />
-            {car.electricRange ? <span><FaBolt /> Räckvidd el: {car.electricRange} km</span> : ''}<br />
+            {car.electricRange ? <span>Räckvidd: {car.electricRange} km</span> : ''}<br />
             Växellåda: {car.transmission}<br />
             Biltyp: {car.carType}<br />
-            <FaRoad />{mileagePerMonth} mil per månad <br />
-
-            
+            {mileagePerMonth} mil per månad <br />
           </Card.Text>
         </Card.Body>
       </Card>
