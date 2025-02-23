@@ -11,7 +11,7 @@ const CarCard = ({ car }) => {
 
   let mileagePerMonth;
   if (car.mileagePerYear === "OBEGR") {
-    mileagePerMonth = "Obegränsat";
+    mileagePerMonth = "Obegränsade";
   } else {
     const yearMileage = Number(car.mileagePerYear);
     mileagePerMonth = !isNaN(yearMileage) ? (yearMileage / 12).toFixed(1) : car.mileagePerYear;
@@ -50,11 +50,12 @@ const CarCard = ({ car }) => {
           <Card.Title className="h2">{car.brand} {car.model}</Card.Title>
           <Card.Text>
            <b>Totalpris: {car.totalPrice} kr</b> <br/>
+            Bindningstid: {car.contractMonths} månader<br />
+            {car.electricRange ? <span><FaBolt /> Räckvidd el: {car.electricRange} km</span> : ''}<br />
             Växellåda: {car.transmission}<br />
             Biltyp: {car.carType}<br />
-            Bindningstid: {car.contractMonths} mån<br />
-            <FaRoad /> Mil/månad: {mileagePerMonth} <br />
-            {car.electricRange ? <span><FaBolt /> Räckvidd el: {car.electricRange} km</span> : ''}<br />
+            <FaRoad />{mileagePerMonth} mil per månad <br />
+
             
           </Card.Text>
         </Card.Body>
