@@ -17,16 +17,23 @@ const CarCard = ({ car }) => {
     mileagePerMonth = !isNaN(yearMileage) ? (yearMileage / 12).toFixed(1) : car.mileagePerYear;
   }
 
-  // Bestäm bakgrundsfärg baserat på drivlina
-  const getPowertrainColor = () => {
-    if (car.powertrain === "el") {
-      return "#95edac"; 
-    } else if (car.powertrain === "bensin") {
-      return "#D2B48C"; 
+  const getFuelCategoryColor = () => {
+    const category = car.fuelCategory?.toLowerCase();
+    if (category === "laddhybryd" || category === "laddhybrid") {
+      return "#a0bfa5";
+    } else if (category === "diesel") {
+      return "#a8997a";
+    } else if (category === "elhybrid") {
+      return "#b2c8b2";
+    } else if (category === "bensin") {
+      return "#d2a679";
+    } else if (category === "el") {
+      return "#95edac"
+;
     }
-    return "#d3d3d3";
+    return "#d3d3d3"; // fallback-färg
   };
-
+  
   return (
     <>
       <Card 
@@ -37,19 +44,19 @@ const CarCard = ({ car }) => {
         <div className="supplier-flag">
           {car.supplier}
         </div>
-        <div className="powertrain-flag" style={{ backgroundColor: getPowertrainColor() }}>
-          {car.powertrain}
+        <div className="powertrain-flag" style={{ backgroundColor: getFuelCategoryColor() }}>
+          {car.fuelCategory}
         </div>
         <Card.Img 
           variant="top" 
-          src={car.imageUrl} 
+          src={car.imageUrl || 'logo-svart_text.png'}
           alt={`${car.brand} ${car.model}`} 
           style={{ height: '200px', objectFit: 'scale-down' }} 
         />
         <Card.Body>
           <Card.Title className="h2">{car.brand} {car.model}</Card.Title>
           <Card.Text>
-            <b>Totalpris: {car.totalPrice} kr</b> <br/>
+          <b>Pris per månad: {car.totalPrice === 0 ? `${car.price} kr (företagspris)` : `${car.totalPrice} kr`}</b><br />
             Bindningstid: {car.contractMonths} mån<br />
             Växellåda: {car.transmission}<br />
             Biltyp: {car.carType}<br />
@@ -69,11 +76,12 @@ const CarCard = ({ car }) => {
           <Modal.Title>{car.brand} {car.model}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <img 
-            src={car.imageUrl} 
-            alt={`${car.brand} ${car.model}`} 
-            style={{ width: '100%', height: 'auto', objectFit: 'cover', marginBottom: '1rem' }} 
-          />
+        <img 
+          src={car.imageUrl || '/audi2.jpg'} 
+          alt={`${car.brand} ${car.model}`} 
+          style={{ width: '100%', height: 'auto', objectFit: 'cover', marginBottom: '1rem' }} 
+        />
+
           <p><strong>Drivlina:</strong> {car.powertrain}</p>
           <p><strong>Växellåda:</strong> {car.transmission}</p>
           <p><strong>Biltyp:</strong> {car.carType}</p>
@@ -86,7 +94,9 @@ const CarCard = ({ car }) => {
             <p><strong>Fyrhjulsdrift:</strong> {car.fourWheelDrive ? 'Ja' : 'Nej'}</p>
           )}
           <p><strong>Totalpris:</strong> {car.totalPrice} kr</p>
-          <Button>Läs mer och boka på {car.supplier}</Button>
+          <Button as="a" href={car.productUrl} target="_blank">
+           Läs mer och boka på {car.supplier}
+          </Button>
         </Modal.Body>
       </Modal>
     </>

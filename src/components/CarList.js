@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react';
-import axios from 'axios';
+import { Button } from 'react-bootstrap';
 import api from '../services/api';
 import CarCard from './CarCard';
 import Fuse from 'fuse.js';
@@ -18,6 +18,7 @@ const CarList = ({ filters }) => {
   const [filteredCars, setFilteredCars] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [sortOrder, setSortOrder] = useState('asc'); // 'asc': Billigast först, 'desc': Dyrast först
 
   // Cache för bilmodellsdata för att undvika upprepade API-anrop
   const carModelCache = useRef({});
@@ -54,7 +55,7 @@ const CarList = ({ filters }) => {
     return () => clearTimeout(handler);
   }, [memoFilters]);
 
-  // Applicera filter och "stitch" med bilmodellsdata
+  // Applicera filter, sortering och "stitch" med bilmodellsdata
   useEffect(() => {
     const applyFiltersAndStitch = async () => {
       let filtered = [...cars];
@@ -99,6 +100,14 @@ const CarList = ({ filters }) => {
             car.totalPrice >= debouncedFilters.totalPrice.min &&
             car.totalPrice <= debouncedFilters.totalPrice.max
           );
+        }
+        // Filtrera med contractMonths (istället för bindingTime)
+        if (debouncedFilters && debouncedFilters.bindingTime !== undefined) {
+          filtered = filtered.filter(car => {
+            return car.contractMonths !== undefined
+              ? car.contractMonths <= debouncedFilters.bindingTime
+              : true;
+          });
         }
         if (debouncedFilters.minMileage !== undefined) {
           filtered = filtered.filter(car => {
@@ -166,13 +175,29 @@ const CarList = ({ filters }) => {
         })
       );
 
-      setFilteredCars(stitchedCars);
+      // Dela upp listan: bilar med totalPrice !== 0 och de med totalPrice === 0
+      const nonZeroCars = stitchedCars.filter(car => car.totalPrice !== 0);
+      const zeroPriceCars = stitchedCars.filter(car => car.totalPrice === 0);
+
+      // Sortera de med icke-noll priser
+      const sortedNonZero = nonZeroCars.sort((a, b) => {
+        if (sortOrder === 'asc') {
+          return a.totalPrice - b.totalPrice;
+        } else {
+          return b.totalPrice - a.totalPrice;
+        }
+      });
+
+      // Slå ihop listan, nollpriserna hamnar sist
+      const finalSortedCars = [...sortedNonZero, ...zeroPriceCars];
+
+      setFilteredCars(finalSortedCars);
     };
 
     if (cars.length > 0) {
       applyFiltersAndStitch();
     }
-  }, [debouncedFilters, cars]);
+  }, [debouncedFilters, cars, sortOrder]);
 
   if (loading) {
     return <div className="text-center mt-5">Laddar bilar...</div>;
@@ -183,18 +208,29 @@ const CarList = ({ filters }) => {
   }
 
   return (
-    <div className="row">
-      {filteredCars.length === 0 ? (
-        <div className="col-12">
-          <p className="text-center">Inga bilar hittades.</p>
-        </div>
-      ) : (
-        filteredCars.map(car => (
-          <div key={car.id} className="col-md-4 mb-4">
-            <CarCard car={car} />
+    <div>
+      {/* Sorteringsknapp 
+      <div className="d-flex justify-content-end mb-3">
+        <Button
+          variant="outline-primary"
+          onClick={() => setSortOrder(prev => (prev === 'asc' ? 'desc' : 'asc'))}
+        >
+          Sortera: {sortOrder === 'asc' ? "Billigast först" : "Dyrast först"}
+        </Button>
+      </div>*/}
+      <div className="row">
+        {filteredCars.length === 0 ? (
+          <div className="col-12">
+            <p className="text-center">Inga bilar hittades.</p>
           </div>
-        ))
-      )}
+        ) : (
+          filteredCars.map(car => (
+            <div key={car.id} className="col-md-4 mb-4">
+              <CarCard car={car} />
+            </div>
+          ))
+        )}
+      </div>
     </div>
   );
 };
