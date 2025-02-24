@@ -61,7 +61,7 @@ function App() {
   // Extrahera unika värden från bil-datan för vissa filteralternativ
   const uniqueBrands = Array.from(new Set(cars.map(car => car.brand)));
   const uniqueSuppliers = Array.from(new Set(cars.map(car => car.supplier)));
-  const uniqueTransmissions = Array.from(new Set(cars.map(car => car.transmission)));
+
 
   // Memoisera filterhanteraren för att undvika onödiga re-renders
   const handleFilterChange = useCallback((newFilters) => {
@@ -83,8 +83,8 @@ function App() {
               totalPriceRange={{ min: 0, max: maxTotalPrice }} 
               brands={uniqueBrands}
               suppliers={uniqueSuppliers}
-              transmissions={uniqueFilters.powertrains}
               // Använder de unika filtervärdena från API:t:
+              transmissions={uniqueFilters.powertrains}
               powertrains={uniqueFilters.fuelCategories}
               carTypes={uniqueFilters.carTypes}
               fuels={uniqueFilters.fuels}
