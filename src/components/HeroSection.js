@@ -17,7 +17,7 @@ const HeroSection = ({ onSearch }) => {
     <div
       className="hero-section"
       style={{
-        background: "url('/herosection_bg.webp') center center/cover no-repeat",
+        background: "url('/audi2.jpg') center center/cover no-repeat",
         position: 'relative',
         height: '60vh',
       }}
