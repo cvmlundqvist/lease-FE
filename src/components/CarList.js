@@ -209,7 +209,11 @@ const CarList = ({ filters }) => {
 
   return (
     <div>
-      {/* Sorteringsknapp 
+      <div className="mb-3">
+        <h5>Antal träffar: {filteredCars.length}</h5>
+      </div>
+      {/* Sorteringsknapp, om du vill ha den - annars kan den kommenteras bort */}
+      {/*
       <div className="d-flex justify-content-end mb-3">
         <Button
           variant="outline-primary"
@@ -217,7 +221,8 @@ const CarList = ({ filters }) => {
         >
           Sortera: {sortOrder === 'asc' ? "Billigast först" : "Dyrast först"}
         </Button>
-      </div>*/}
+      </div>
+      */}
       <div className="row">
         {filteredCars.length === 0 ? (
           <div className="col-12">
