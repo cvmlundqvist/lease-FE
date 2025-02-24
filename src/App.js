@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import HeroSection from './components/HeroSection';
 import FilterBar from './components/FilterBar';
 import CarList from './components/CarList';
@@ -12,6 +12,13 @@ function App() {
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(true);
   const [maxTotalPrice, setMaxTotalPrice] = useState(25000);
+  const [uniqueFilters, setUniqueFilters] = useState({
+    fuels: [],
+    fuelCategories: [],
+    carTypes: [],
+    powertrains: [],
+    electricRanges: []
+  });
 
   // Hämta bil-datan
   useEffect(() => {
@@ -40,16 +47,26 @@ function App() {
       });
   }, []);
 
-  // Extrahera unika värden från bil-datan för filteralternativ
+  // Hämta unika filter från /api/car-models/unique
+  useEffect(() => {
+    api.get('/car-models/unique')
+      .then(response => {
+        setUniqueFilters(response.data);
+      })
+      .catch(err => {
+        console.error('Error fetching unique filters:', err);
+      });
+  }, []);
+
+  // Extrahera unika värden från bil-datan för vissa filteralternativ
   const uniqueBrands = Array.from(new Set(cars.map(car => car.brand)));
   const uniqueSuppliers = Array.from(new Set(cars.map(car => car.supplier)));
-  const uniquePowertrains = Array.from(new Set(cars.map(car => car.powertrain)));
   const uniqueTransmissions = Array.from(new Set(cars.map(car => car.transmission)));
-  const uniqueCarTypes = Array.from(new Set(cars.map(car => car.carType)));
 
-  const handleFilterChange = (newFilters) => {
+  // Memoisera filterhanteraren för att undvika onödiga re-renders
+  const handleFilterChange = useCallback((newFilters) => {
     setFilters(prev => ({ ...prev, ...newFilters }));
-  };
+  }, []);
 
   const handleSearch = (query) => {
     setFilters(prev => ({ ...prev, searchQuery: query }));
@@ -66,9 +83,13 @@ function App() {
               totalPriceRange={{ min: 0, max: maxTotalPrice }} 
               brands={uniqueBrands}
               suppliers={uniqueSuppliers}
-              powertrains={uniquePowertrains}
-              transmissions={uniqueTransmissions}
-              carTypes={uniqueCarTypes}
+              transmissions={uniqueFilters.powertrains}
+              // Använder de unika filtervärdena från API:t:
+              powertrains={uniqueFilters.fuelCategories}
+              carTypes={uniqueFilters.carTypes}
+              fuels={uniqueFilters.fuels}
+              fuelCategories={uniqueFilters.fuelCategories}
+              electricRanges={uniqueFilters.electricRanges}
             />
           </div>
         </div>

@@ -22,10 +22,9 @@ const FilterBar = ({
     minMileage: 0,
   };
 
-  // Vi sätter totalPrice som ett objekt med fast min-värde
   const [filters, setFilters] = useState(defaultFilters);
 
-  // Uppdatera filter live
+  // Anropa onFilterChange när de lokala filtren ändras
   useEffect(() => {
     onFilterChange(filters);
   }, [filters, onFilterChange]);
@@ -173,7 +172,6 @@ const FilterBar = ({
               </div>
             </Form.Group>
           </Col>
-          {/* Lägg till en kolumn för "Nollställ filter"-knappen */}
           <Col md={4} className="text-md-end">
             <Button variant="dark" onClick={resetFilters}>
               Nollställ filter

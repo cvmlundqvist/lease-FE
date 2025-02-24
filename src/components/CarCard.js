@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Modal } from 'react-bootstrap';
+import { Card, Modal, Button } from 'react-bootstrap';
 import { FaRoad, FaBolt } from 'react-icons/fa';
 import './CarCard.css';
 
@@ -19,9 +19,9 @@ const CarCard = ({ car }) => {
 
   // Bestäm bakgrundsfärg baserat på drivlina
   const getPowertrainColor = () => {
-    if (car.powertrain.toLowerCase() === "el") {
+    if (car.powertrain === "el") {
       return "#95edac"; 
-    } else if (car.powertrain.toLowerCase() === "bensin") {
+    } else if (car.powertrain === "bensin") {
       return "#D2B48C"; 
     }
     return "#d3d3d3";
@@ -49,12 +49,17 @@ const CarCard = ({ car }) => {
         <Card.Body>
           <Card.Title className="h2">{car.brand} {car.model}</Card.Title>
           <Card.Text>
-           <b>Totalpris: {car.totalPrice} kr</b> <br/>
+            <b>Totalpris: {car.totalPrice} kr</b> <br/>
             Bindningstid: {car.contractMonths} mån<br />
             Växellåda: {car.transmission}<br />
             Biltyp: {car.carType}<br />
             {mileagePerMonth} mil per månad <br />
-            {car.electricRange ? <span>Räckvidd: {car.electricRange} km </span> : ''}
+            {car.electricRange && <span>Räckvidd: {car.electricRange} km<br /></span>}
+            {car.fuel && <span>Bränsle: {car.fuel}<br /></span>}
+            {car.fuelCategory && <span>Bränslekategori: {car.fuelCategory}<br /></span>}
+            {car.fourWheelDrive !== undefined && (
+              <span>Fyrhjulsdrift: {car.fourWheelDrive ? 'Ja' : 'Nej'}</span>
+            )}
           </Card.Text>
         </Card.Body>
       </Card>
@@ -75,7 +80,13 @@ const CarCard = ({ car }) => {
           <p><strong>Bindningstid:</strong> {car.contractMonths} mån</p>
           <p><strong>Mil/månad:</strong> {mileagePerMonth}</p>
           {car.electricRange && <p><strong>Räckvidd el:</strong> {car.electricRange} km</p>}
+          {car.fuel && <p><strong>Bränsle:</strong> {car.fuel}</p>}
+          {car.fuelCategory && <p><strong>Bränslekategori:</strong> {car.fuelCategory}</p>}
+          {car.fourWheelDrive !== undefined && (
+            <p><strong>Fyrhjulsdrift:</strong> {car.fourWheelDrive ? 'Ja' : 'Nej'}</p>
+          )}
           <p><strong>Totalpris:</strong> {car.totalPrice} kr</p>
+          <Button>Läs mer och boka på {car.supplier}</Button>
         </Modal.Body>
       </Modal>
     </>
