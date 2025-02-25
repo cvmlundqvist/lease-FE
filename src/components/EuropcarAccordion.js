@@ -2,7 +2,7 @@ import React from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 
 const EuropcarAccordion = () => (
-  <Accordion defaultActiveKey="0" style={{ marginBottom: '1rem' }}>
+  <Accordion style={{ marginBottom: '1rem' }}>
     <Accordion.Item eventKey="0">
       <Accordion.Header>Läs mer om Europcar</Accordion.Header>
       <Accordion.Body>
