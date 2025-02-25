@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Card, Modal, Button, Row, Col } from 'react-bootstrap';
 import './CarCard.css';
+import EuropcarAccordion from './EuropcarAccordion';
 
 const CarCard = ({ car }) => {
   const [showModal, setShowModal] = useState(false);
@@ -64,7 +65,6 @@ const CarCard = ({ car }) => {
 
       <Modal show={showModal} onHide={handleClose} centered size="lg">
         <Modal.Header closeButton>
-          <Modal.Title>{car.brand} {car.model}</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ padding: '50px' }}>
         <img 
@@ -80,9 +80,10 @@ const CarCard = ({ car }) => {
     marginRight: 'auto'
           }} 
           />
-
+          <h2>{car.brand} {car.model}</h2>
+          
           {car.modelDescription && <p>{car.modelDescription}</p>}
-
+          
           <div className="attributes">
             <Row>
               {car.fuelCategory && (
@@ -135,7 +136,7 @@ const CarCard = ({ car }) => {
 
             </Row>
           </div>
-      
+          <EuropcarAccordion/>
           <div className="d-flex justify-content-center">
             <Button as="a" href={car.productUrl} target="_blank">
               Läs mer och boka på {car.supplier}
@@ -143,7 +144,6 @@ const CarCard = ({ car }) => {
       
           </div>
           <br/>
-          <small> Europcar är en ledande aktör inom biluthyrning med ett brett utbud av moderna, välunderhållna fordon. Med konkurrenskraftiga priser, flexibla hyresalternativ och ett komplett utbud av tilläggstjänster, erbjuds en trygg och professionell hyrupplevelse.</small>
 
         </Modal.Body>
       </Modal>
