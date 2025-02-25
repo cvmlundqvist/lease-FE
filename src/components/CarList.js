@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Pagination } from 'react-bootstrap';
 import api from '../services/api';
 import CarCard from './CarCard';
 import Fuse from 'fuse.js';
+import './CarList.css'
 
 // Hjälpfunktion för att normalisera söksträngar
 const preprocessQuery = (query) => {
@@ -20,7 +21,11 @@ const CarList = ({ filters }) => {
   const [error, setError] = useState(null);
   const [sortOrder, setSortOrder] = useState('asc'); // 'asc': Billigast först, 'desc': Dyrast först
 
-  // Cache för bilmodellsdata för att undvika upprepade API-anrop
+  // Paginering
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 12;
+
+  // Cache för bilmodellsdata
   const carModelCache = useRef({});
 
   // Memoisera filters med JSON.stringify för att undvika onödiga re-renders
@@ -54,6 +59,11 @@ const CarList = ({ filters }) => {
     }, 300);
     return () => clearTimeout(handler);
   }, [memoFilters]);
+
+  // Återställ currentPage till 1 när filtren ändras
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [debouncedFilters]);
 
   // Applicera filter, sortering och "stitch" med bilmodellsdata
   useEffect(() => {
@@ -98,8 +108,8 @@ const CarList = ({ filters }) => {
         if (debouncedFilters.totalPrice) {
           filtered = filtered.filter(car =>
             car.totalPrice >= debouncedFilters.totalPrice.min &&
-            car.totalPrice <= debouncedFilters.totalPrice.max
-            && car.totalPrice !== 0
+            car.totalPrice <= debouncedFilters.totalPrice.max &&
+            car.totalPrice !== 0
           );
         }
         // Filtrera med contractMonths (istället för bindingTime)
@@ -113,11 +123,10 @@ const CarList = ({ filters }) => {
         if (debouncedFilters.minMileage !== undefined) {
           filtered = filtered.filter(car => {
             let monthlyMileage = car.mileagePerMonths;
-        
             return monthlyMileage >= debouncedFilters.minMileage;
           });
         }
-      }        
+      }
 
       // Deduplicera: gruppera bilar efter brand, model, powertrain och transmission.
       const deduped = Object.values(
@@ -209,6 +218,12 @@ const CarList = ({ filters }) => {
     return <div className="text-center mt-5 text-danger">{error}</div>;
   }
 
+  // Paginering: beräkna vilka bilar som ska visas på den aktuella sidan
+  const totalPages = Math.ceil(filteredCars.length / pageSize);
+  const indexOfLastCar = currentPage * pageSize;
+  const indexOfFirstCar = indexOfLastCar - pageSize;
+  const currentCars = filteredCars.slice(indexOfFirstCar, indexOfLastCar);
+
   return (
     <div>
       <div className="mb-3">
@@ -231,13 +246,37 @@ const CarList = ({ filters }) => {
             <p className="text-center">Inga bilar hittades.</p>
           </div>
         ) : (
-          filteredCars.map(car => (
+          currentCars.map(car => (
             <div key={car.id} className="col-md-4 mb-4">
               <CarCard car={car} />
             </div>
           ))
         )}
       </div>
+      {totalPages > 1 && (
+        <div className="d-flex justify-content-center">
+          <Pagination>
+            <Pagination.Prev 
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+            />
+            {[...Array(totalPages).keys()].map(num => (
+              <Pagination.Item 
+  key={num + 1} 
+  active={num + 1 === currentPage} 
+  onClick={() => setCurrentPage(num + 1)}
+  style={num + 1 === currentPage ? { backgroundColor: '#343a40', borderColor: '#343a40', color: 'white' } : {}}
+>
+  {num + 1}
+</Pagination.Item>
+            ))}
+            <Pagination.Next 
+              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+            />
+          </Pagination>
+        </div>
+      )}
     </div>
   );
 };

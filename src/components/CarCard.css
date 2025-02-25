@@ -46,3 +46,12 @@
     font-weight: bold;
     background-color: rgba(219, 219, 219, 0.9);
   }
+  .attributes {
+    background-color: #fafafa;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Modal, Button } from 'react-bootstrap';
+import { Card, Modal, Button, Row, Col } from 'react-bootstrap';
 import './CarCard.css';
 
 const CarCard = ({ car }) => {
@@ -62,34 +62,89 @@ const CarCard = ({ car }) => {
         </Card.Body>
       </Card>
 
-      <Modal show={showModal} onHide={handleClose} centered>
+      <Modal show={showModal} onHide={handleClose} centered size="lg">
         <Modal.Header closeButton>
           <Modal.Title>{car.brand} {car.model}</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ padding: '50px' }}>
-          <img 
-            src={car.imageUrl || '/audi2.jpg'} 
-            alt={`${car.brand} ${car.model}`} 
-            style={{ width: '100%', height: 'auto', objectFit: 'cover', marginBottom: '1rem' }} 
+        <img 
+  src={car.imageUrl || '/audi2.jpg'} 
+  alt={`${car.brand} ${car.model}`} 
+  style={{ 
+    width: '60%', 
+    height: 'auto', 
+    objectFit: 'scale-down', 
+    marginBottom: '1rem', 
+    display: 'block', 
+    marginLeft: 'auto', 
+    marginRight: 'auto'
+          }} 
           />
+
           {car.modelDescription && <p>{car.modelDescription}</p>}
-          {car.fuelCategory && <p><strong>Drivlina:</strong> {car.fuelCategory}</p>}
-          {car.powertrain && <p><strong>Växellåda:</strong> {car.powertrain}</p>}
-          {car.carType && <p><strong>Biltyp:</strong> {car.carType}</p>}
-          {car.contractMonths && <p><strong>Bindningstid:</strong> {car.contractMonths} mån</p>}
-          {car.mileagePerMonths && <p><strong>{car.mileagePerMonths}</strong> inkluderade mil per månad </p>}
-          {car.electricRange && <p><strong>Räckvidd el:</strong> {car.electricRange} km</p>}
-          {car.fuel && <p><strong>Bränsle:</strong> {car.fuel}</p>}
-          {car.fuelCategory && <p><strong>Bränslekategori:</strong> {car.fuelCategory}</p>}
-          {car.fourWheelDrive !== undefined && (
-            <p><strong>Fyrhjulsdrift:</strong> {car.fourWheelDrive ? 'Ja' : 'Nej'}</p>
-          )}
-          <p><strong>Totalpris:</strong> {car.totalPrice} kr</p>
+
+          <div className="attributes">
+            <Row>
+              {car.fuelCategory && (
+                <Col md={6}>
+                  <p><strong>Drivlina:</strong> {car.fuelCategory}</p>
+                </Col>
+              )}
+              {car.powertrain && (
+                <Col md={6}>
+                  <p><strong>Växellåda:</strong> {car.powertrain}</p>
+                </Col>
+              )}
+            </Row>
+            <Row>
+              {car.carType && (
+                <Col md={6}>
+                  <p><strong>Biltyp:</strong> {car.carType}</p>
+                </Col>
+              )}
+              {car.contractMonths && (
+                <Col md={6}>
+                  <p><strong>Bindningstid:</strong> {car.contractMonths} mån</p>
+                </Col>
+              )}
+            </Row>
+            <Row>
+              {car.mileagePerMonths && (
+                <Col md={6}>
+                  <p><strong>Mil per månad:</strong> {car.mileagePerMonths} mil</p>
+                </Col>
+              )}
+
+              <Col md={6}>
+                <p><strong>Pris per månad:</strong> {car.totalPrice} kr</p>
+              </Col>
+ 
+            </Row>
+            <Row>
+              {car.fourWheelDrive !== undefined && (
+                <Col md={6}>
+                  <p><strong>Fyrhjulsdrift:</strong> {car.fourWheelDrive ? 'Ja' : 'Nej'}</p>
+                </Col>
+              )}             
+              {car.electricRange && (
+                <Col md={6}>
+                  <p><strong>Räckvidd el:</strong> {car.electricRange} km</p>
+                </Col>
+              )}
+
+
+            </Row>
+          </div>
+      
           <div className="d-flex justify-content-center">
             <Button as="a" href={car.productUrl} target="_blank">
               Läs mer och boka på {car.supplier}
             </Button>
+      
           </div>
+          <br/>
+          <small> Europcar är en ledande aktör inom biluthyrning med ett brett utbud av moderna, välunderhållna fordon. Med konkurrenskraftiga priser, flexibla hyresalternativ och ett komplett utbud av tilläggstjänster, erbjuds en trygg och professionell hyrupplevelse.</small>
+
         </Modal.Body>
       </Modal>
     </>
