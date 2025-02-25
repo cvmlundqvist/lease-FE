@@ -143,9 +143,14 @@ const CarList = ({ filters }) => {
             return {
               ...car,
               ...carModel,
-              // Prioritera data från carModel om den finns
+              imageUrl: carModel.imageUrl,
+              fuel: carModel.fuel,
+              fuelCategory: carModel.fuelCategory,
               carType: carModel.carType || car.carType,
               powertrain: carModel.powertrain || car.powertrain,
+              electricRange: carModel.electricRange || car.electricRange,
+              fourWheelDrive: carModel.fourWheelDrive || car.fourWheelDrive,
+              modelDescription: carModel.modelDescription || car.modelDescription
             };
           } else {
             try {
@@ -163,8 +168,9 @@ const CarList = ({ filters }) => {
                   fuelCategory: carModel.fuelCategory,
                   carType: carModel.carType || car.carType,
                   powertrain: carModel.powertrain || car.powertrain,
-                  electricRange: carModel.electricRange,
-                  fourWheelDrive: carModel.fourWheelDrive
+                  electricRange: carModel.electricRange || car.electricRange,
+                  fourWheelDrive: carModel.fourWheelDrive || car.fourWheelDrive,
+                  modelDescription: carModel.modelDescription || car.modelDescription
                 };
               }
             } catch (err) {

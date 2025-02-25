@@ -60,7 +60,7 @@ const CarCard = ({ car }) => {
             Växellåda: {car.powertrain}<br />
             Biltyp: {car.carType}<br />
             {car.mileagePerMonth && <span>{car.mileagePerMonth} mil per månad<br /></span> }
-            {car.electricRange && <span>Räckvidd: {car.electricRange} km<br /></span>}
+            {car.electricRange && car.electricRange !== 0 && <span>Räckvidd: {car.electricRange} km<br /></span>}
             {car.fourWheelDrive !== undefined && (
               <span>Fyrhjulsdrift: {car.fourWheelDrive ? 'Ja' : 'Nej'}</span>
             )}
@@ -72,13 +72,13 @@ const CarCard = ({ car }) => {
         <Modal.Header closeButton>
           <Modal.Title>{car.brand} {car.model}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body style={{ padding: '50px' }}>
         <img 
           src={car.imageUrl || '/audi2.jpg'} 
           alt={`${car.brand} ${car.model}`} 
           style={{ width: '100%', height: 'auto', objectFit: 'cover', marginBottom: '1rem' }} 
         />
-
+          {car.modelDescription &&<p>{car.modelDescription}</p>}
           {car.fuelCategory &&<p><strong>Drivlina:</strong> {car.fuelCategory}</p>}
           {car.powertrain &&<p><strong>Växellåda:</strong> {car.powertrain}</p>}
           {car.carType &&<p><strong>Biltyp:</strong> {car.carType}</p>}
@@ -91,9 +91,11 @@ const CarCard = ({ car }) => {
             <p><strong>Fyrhjulsdrift:</strong> {car.fourWheelDrive ? 'Ja' : 'Nej'}</p>
           )}
           <p><strong>Totalpris:</strong> {car.totalPrice} kr</p>
+          <div className="d-flex justify-content-center">
           <Button as="a" href={car.productUrl} target="_blank">
            Läs mer och boka på {car.supplier}
           </Button>
+          </div>
         </Modal.Body>
       </Modal>
     </>
