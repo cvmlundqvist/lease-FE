@@ -139,7 +139,7 @@ const FilterBar = ({
       <Row className="gy-3 align-items-end mt-3">
         <Col md={4}>
           <Form.Group controlId="totalPrice">
-            <Form.Label>Totalpris (kr)</Form.Label>
+            <Form.Label>Pris per månad</Form.Label>
             <div className="mb-2">
               <Form.Range 
                 min={totalPriceRange.min} 

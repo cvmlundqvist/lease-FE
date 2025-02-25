@@ -17,9 +17,9 @@ const HeroSection = ({ onSearch }) => {
     <div
       className="hero-section"
       style={{
-        background: "url('/audi2.jpg') center center/cover no-repeat",
+        background: "url('/audi.webp') center center/cover no-repeat",
         position: 'relative',
-        height: '60vh',
+        height: '45vh',
       }}
     >
       {/* Logo in the top left corner */}

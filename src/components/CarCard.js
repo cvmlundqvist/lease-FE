@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Card, Modal, Button } from 'react-bootstrap';
-import { FaRoad, FaBolt } from 'react-icons/fa';
 import './CarCard.css';
 
 const CarCard = ({ car }) => {
@@ -58,12 +57,10 @@ const CarCard = ({ car }) => {
           <Card.Text>
           <b>Pris per månad: {car.totalPrice === 0 ? `${car.price} kr (företagspris)` : `${car.totalPrice} kr`}</b><br />
             Bindningstid: {car.contractMonths} mån<br />
-            Växellåda: {car.transmission}<br />
+            Växellåda: {car.powertrain}<br />
             Biltyp: {car.carType}<br />
-            {mileagePerMonth} mil per månad <br />
+            {car.mileagePerMonth && <span>{car.mileagePerMonth} mil per månad<br /></span> }
             {car.electricRange && <span>Räckvidd: {car.electricRange} km<br /></span>}
-            {car.fuel && <span>Bränsle: {car.fuel}<br /></span>}
-            {car.fuelCategory && <span>Bränslekategori: {car.fuelCategory}<br /></span>}
             {car.fourWheelDrive !== undefined && (
               <span>Fyrhjulsdrift: {car.fourWheelDrive ? 'Ja' : 'Nej'}</span>
             )}
@@ -82,11 +79,11 @@ const CarCard = ({ car }) => {
           style={{ width: '100%', height: 'auto', objectFit: 'cover', marginBottom: '1rem' }} 
         />
 
-          <p><strong>Drivlina:</strong> {car.powertrain}</p>
-          <p><strong>Växellåda:</strong> {car.transmission}</p>
-          <p><strong>Biltyp:</strong> {car.carType}</p>
-          <p><strong>Bindningstid:</strong> {car.contractMonths} mån</p>
-          <p><strong>Mil/månad:</strong> {mileagePerMonth}</p>
+          {car.fuelCategory &&<p><strong>Drivlina:</strong> {car.fuelCategory}</p>}
+          {car.powertrain &&<p><strong>Växellåda:</strong> {car.powertrain}</p>}
+          {car.carType &&<p><strong>Biltyp:</strong> {car.carType}</p>}
+          {car.contractMonths &&<p><strong>Bindningstid:</strong> {car.contractMonths} mån</p>}
+          {car.mileagePerMonth &&<p><strong>Mil/månad:</strong> {mileagePerMonth}</p>}
           {car.electricRange && <p><strong>Räckvidd el:</strong> {car.electricRange} km</p>}
           {car.fuel && <p><strong>Bränsle:</strong> {car.fuel}</p>}
           {car.fuelCategory && <p><strong>Bränslekategori:</strong> {car.fuelCategory}</p>}
