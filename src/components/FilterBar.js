@@ -194,7 +194,6 @@ const FilterBar = ({
       >
         {open ? "Stäng filter" : "Visa filter ☰"}
       </Button>
-
       {/* Filterformulär för mobila enheter */}
       <Collapse in={open}>
         <div id="mobile-filter" className="d-md-none">

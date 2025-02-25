@@ -71,7 +71,7 @@ const CarCard = ({ car }) => {
   src={car.imageUrl || '/audi2.jpg'} 
   alt={`${car.brand} ${car.model}`} 
   style={{ 
-    width: '60%', 
+    width: '90%', 
     height: 'auto', 
     objectFit: 'scale-down', 
     marginBottom: '1rem', 
