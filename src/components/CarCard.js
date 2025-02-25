@@ -8,13 +8,6 @@ const CarCard = ({ car }) => {
   const handleCardClick = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
 
-  let mileagePerMonth;
-  if (car.mileagePerYear === "OBEGR") {
-    mileagePerMonth = "Obegränsade";
-  } else {
-    const yearMileage = Number(car.mileagePerYear);
-    mileagePerMonth = !isNaN(yearMileage) ? (yearMileage / 12).toFixed(1) : car.mileagePerYear;
-  }
 
   const getFuelCategoryColor = () => {
     const category = car.fuelCategory?.toLowerCase();
@@ -27,12 +20,11 @@ const CarCard = ({ car }) => {
     } else if (category === "bensin") {
       return "#d2a679";
     } else if (category === "el") {
-      return "#95edac"
-;
+      return "#95edac";
     }
     return "#d3d3d3"; // fallback-färg
   };
-  
+
   return (
     <>
       <Card 
@@ -46,6 +38,11 @@ const CarCard = ({ car }) => {
         <div className="powertrain-flag" style={{ backgroundColor: getFuelCategoryColor() }}>
           {car.fuelCategory}
         </div>
+        {car.fourWheelDrive && (
+          <div className="four-wheel-flag">
+            4x4
+          </div>
+        )}
         <Card.Img 
           variant="top" 
           src={car.imageUrl || 'logo-svart_text.png'}
@@ -55,15 +52,12 @@ const CarCard = ({ car }) => {
         <Card.Body>
           <Card.Title className="h2">{car.brand} {car.model}</Card.Title>
           <Card.Text>
-          <b>Pris per månad: {car.totalPrice === 0 ? `${car.price} kr (företagspris)` : `${car.totalPrice} kr`}</b><br />
+            <b>Pris per månad: {car.totalPrice === 0 ? `${car.price} kr (företagspris)` : `${car.totalPrice} kr`}</b><br />
             Bindningstid: {car.contractMonths} mån<br />
             Växellåda: {car.powertrain}<br />
             Biltyp: {car.carType}<br />
-            {car.mileagePerMonth && <span>{car.mileagePerMonth} mil per månad<br /></span> }
+            {car.mileagePerMonths && <span>{car.mileagePerMonths} mil per månad<br /></span> }
             {car.electricRange && car.electricRange !== 0 && <span>Räckvidd: {car.electricRange} km<br /></span>}
-            {car.fourWheelDrive !== undefined && (
-              <span>Fyrhjulsdrift: {car.fourWheelDrive ? 'Ja' : 'Nej'}</span>
-            )}
           </Card.Text>
         </Card.Body>
       </Card>
@@ -73,17 +67,17 @@ const CarCard = ({ car }) => {
           <Modal.Title>{car.brand} {car.model}</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ padding: '50px' }}>
-        <img 
-          src={car.imageUrl || '/audi2.jpg'} 
-          alt={`${car.brand} ${car.model}`} 
-          style={{ width: '100%', height: 'auto', objectFit: 'cover', marginBottom: '1rem' }} 
-        />
-          {car.modelDescription &&<p>{car.modelDescription}</p>}
-          {car.fuelCategory &&<p><strong>Drivlina:</strong> {car.fuelCategory}</p>}
-          {car.powertrain &&<p><strong>Växellåda:</strong> {car.powertrain}</p>}
-          {car.carType &&<p><strong>Biltyp:</strong> {car.carType}</p>}
-          {car.contractMonths &&<p><strong>Bindningstid:</strong> {car.contractMonths} mån</p>}
-          {car.mileagePerMonth &&<p><strong>Mil/månad:</strong> {mileagePerMonth}</p>}
+          <img 
+            src={car.imageUrl || '/audi2.jpg'} 
+            alt={`${car.brand} ${car.model}`} 
+            style={{ width: '100%', height: 'auto', objectFit: 'cover', marginBottom: '1rem' }} 
+          />
+          {car.modelDescription && <p>{car.modelDescription}</p>}
+          {car.fuelCategory && <p><strong>Drivlina:</strong> {car.fuelCategory}</p>}
+          {car.powertrain && <p><strong>Växellåda:</strong> {car.powertrain}</p>}
+          {car.carType && <p><strong>Biltyp:</strong> {car.carType}</p>}
+          {car.contractMonths && <p><strong>Bindningstid:</strong> {car.contractMonths} mån</p>}
+          {car.mileagePerMonths && <p><strong>{car.mileagePerMonths}</strong> inkluderade mil per månad </p>}
           {car.electricRange && <p><strong>Räckvidd el:</strong> {car.electricRange} km</p>}
           {car.fuel && <p><strong>Bränsle:</strong> {car.fuel}</p>}
           {car.fuelCategory && <p><strong>Bränslekategori:</strong> {car.fuelCategory}</p>}
@@ -92,9 +86,9 @@ const CarCard = ({ car }) => {
           )}
           <p><strong>Totalpris:</strong> {car.totalPrice} kr</p>
           <div className="d-flex justify-content-center">
-          <Button as="a" href={car.productUrl} target="_blank">
-           Läs mer och boka på {car.supplier}
-          </Button>
+            <Button as="a" href={car.productUrl} target="_blank">
+              Läs mer och boka på {car.supplier}
+            </Button>
           </div>
         </Modal.Body>
       </Modal>

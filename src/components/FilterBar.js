@@ -159,10 +159,10 @@ const FilterBar = ({
         </Col>
         <Col md={4}>
           <Form.Group controlId="minMileage">
-            <Form.Label>Mil/månad (minsta)</Form.Label>
+            <Form.Label>Mil per månad</Form.Label>
             <Form.Range 
               min="0" 
-              max="100" 
+              max="250" 
               step="1" 
               value={filters.minMileage}
               onChange={(e) => handleChange('minMileage', Number(e.target.value))}

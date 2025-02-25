@@ -19,7 +19,7 @@ const HeroSection = ({ onSearch }) => {
       style={{
         background: "url('/AUDI.webp') center center/cover no-repeat",
         position: 'relative',
-        height: '45vh',
+        height: '48vh',
       }}
     >
       {/* Logo in the top left corner */}
@@ -28,16 +28,20 @@ const HeroSection = ({ onSearch }) => {
       <Container className="text-center text-white" style={{ position: 'relative', zIndex: 2 }}>
         <h1 className="display-4 fw-bold">Hitta din drömbil</h1>
         <p className="lead">Enkelt. Smidigt. Moderna leasinglösningar.</p>
-        <Form className="d-flex justify-content-center mt-4">
-          <FormControl
-            type="search"
-            placeholder="Sök efter märke eller modell"
-            className="me-2 search-input"
-            aria-label="Sök"
-            value={query}
-            onChange={handleChange}
-          />
+        <Form
+        onSubmit={(e) => e.preventDefault()}
+        className="d-flex justify-content-center mt-4"
+        >
+        <FormControl
+        type="search"
+        placeholder="Sök efter märke eller modell"
+        className="me-2 search-input"
+        aria-label="Sök"
+        value={query}
+        onChange={handleChange}
+         />
         </Form>
+
       </Container>
       {/* Dark overlay */}
       <div

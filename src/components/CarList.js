@@ -92,13 +92,14 @@ const CarList = ({ filters }) => {
         }
         if (debouncedFilters.carType) {
           filtered = filtered.filter(car =>
-            car.carType.toLowerCase().includes(debouncedFilters.carType.toLowerCase())
+            car.carType && car.carType.toLowerCase().includes(debouncedFilters.carType.toLowerCase())
           );
         }
         if (debouncedFilters.totalPrice) {
           filtered = filtered.filter(car =>
             car.totalPrice >= debouncedFilters.totalPrice.min &&
             car.totalPrice <= debouncedFilters.totalPrice.max
+            && car.totalPrice !== 0
           );
         }
         // Filtrera med contractMonths (istället för bindingTime)
@@ -111,17 +112,12 @@ const CarList = ({ filters }) => {
         }
         if (debouncedFilters.minMileage !== undefined) {
           filtered = filtered.filter(car => {
-            let monthlyMileage;
-            if (car.mileagePerYear === "OBEGR") {
-              monthlyMileage = Infinity;
-            } else {
-              const yearMileage = Number(car.mileagePerYear);
-              monthlyMileage = isNaN(yearMileage) ? 0 : yearMileage / 12;
-            }
+            let monthlyMileage = car.mileagePerMonths;
+        
             return monthlyMileage >= debouncedFilters.minMileage;
           });
         }
-      }
+      }        
 
       // Deduplicera: gruppera bilar efter brand, model, powertrain och transmission.
       const deduped = Object.values(

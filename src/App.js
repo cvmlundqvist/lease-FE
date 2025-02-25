@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import HeroSection from './components/HeroSection';
 import FilterBar from './components/FilterBar';
 import CarList from './components/CarList';
@@ -62,6 +62,10 @@ function App() {
   const uniqueBrands = Array.from(new Set(cars.map(car => car.brand)));
   const uniqueSuppliers = Array.from(new Set(cars.map(car => car.supplier)));
 
+  // Beräkna minimumpriset baserat på cars-arrayen
+  const minTotalPrice = useMemo(() => {
+    return cars.length ? Math.min(...cars.map(car => car.totalPrice)) : 0;
+  }, [cars]);
 
   // Memoisera filterhanteraren för att undvika onödiga re-renders
   const handleFilterChange = useCallback((newFilters) => {
@@ -80,10 +84,9 @@ function App() {
           <div className="col-12">
             <FilterBar 
               onFilterChange={handleFilterChange} 
-              totalPriceRange={{ min: 0, max: maxTotalPrice }} 
+              totalPriceRange={{ min: minTotalPrice, max: maxTotalPrice }} 
               brands={uniqueBrands}
               suppliers={uniqueSuppliers}
-              // Använder de unika filtervärdena från API:t:
               transmissions={uniqueFilters.powertrains}
               powertrains={uniqueFilters.fuelCategories}
               carTypes={uniqueFilters.carTypes}
