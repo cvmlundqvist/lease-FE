@@ -17,7 +17,7 @@ const HeroSection = ({ onSearch }) => {
     <div
       className="hero-section"
       style={{
-        background: "url('https://i.ibb.co/Df1MmKDv/AUDI-copy.webp') center center/cover no-repeat",
+        background: "url('/AUDI.webp') center center/cover no-repeat",
         position: 'relative',
         height: '45vh',
       }}
