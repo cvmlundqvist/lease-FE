@@ -55,8 +55,6 @@ const CarCard = ({ car }) => {
           <Card.Text>
             <b>Pris per månad: {car.totalPrice === 0 ? `${car.price} kr (företagspris)` : `${car.totalPrice} kr`}</b><br />
             Bindningstid: {car.contractMonths} mån<br />
-            Växellåda: {car.powertrain}<br />
-            Biltyp: {car.carType}<br />
             {car.mileagePerMonths && <span>{car.mileagePerMonths} mil per månad<br /></span> }
             {car.electricRange && car.electricRange !== 0 && <span>Räckvidd: {car.electricRange} km<br /></span>}
           </Card.Text>
