@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, Modal, Button, Row, Col } from 'react-bootstrap';
 import './CarCard.css';
-import EuropcarAccordion from './EuropcarAccordion';
+import SupplierAccordion from './SupplierAccordion';
 
 const CarCard = ({ car }) => {
   const [showModal, setShowModal] = useState(false);
@@ -134,7 +134,7 @@ const CarCard = ({ car }) => {
 
             </Row>
           </div>
-          <EuropcarAccordion/>
+          <SupplierAccordion supplier={car.supplier}/>
           <div className="d-flex justify-content-center">
             <Button as="a" href={car.productUrl} target="_blank">
               Läs mer och boka på {car.supplier}
