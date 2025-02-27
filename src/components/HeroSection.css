@@ -1,9 +1,18 @@
 .hero-logo {
-    position: absolute;
-    top: 0%;
-    left: 0%;
-    z-index: 3;
-    height: 15vw; /* 8% of viewport width */
-    
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  height: 20vh;  /* Standard för desktop */
+  width: auto;
+  min-height: 10vh;
+}
+
+/* För mindre skärmar, t.ex. mobiler */
+@media (max-width: 767px) {
+  .hero-logo {
+    height: 15vh; /* Mindre höjd på mobila enheter */
+    top: 0;
+    left: 0;
   }
-  
+}

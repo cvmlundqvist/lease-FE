@@ -1,6 +1,7 @@
 .filter-bar-wrapper {
   width: 100%;
   background-color: #f7f7f7;
+  padding-top: 0px;
   padding: 15px;
   border-radius: 10px;
   justify-content: center;
@@ -17,6 +18,7 @@
   }
   
   .modern-filter-bar .form-label {
+    font-size: small;
     font-weight: 700;
   }
   
@@ -27,6 +29,7 @@
     box-shadow: none;
   }
   .filter-bar .form-label {
+    font-size: small;
     font-weight: 700 !important;
     font-family: 'Poppins', sans-serif;
   }

@@ -23,7 +23,7 @@ const HeroSection = ({ onSearch }) => {
       }}
     >
       {/* Logo in the top left corner */}
-      <img src="/5.png" alt="Logo" className="hero-logo" />
+      <img src="nylogo.png" alt="Logo" className="hero-logo" />
       
       <Container className="text-center text-white" style={{ position: 'relative', zIndex: 2 }}>
         <h1 className="display-4 fw-bold">Hitta din drömbil</h1>

@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import api from './services/api';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.css';
+import Text from './components/Text';
 
 function App() {
   const [filters, setFilters] = useState({});
@@ -79,6 +80,7 @@ function App() {
   return (
     <div>
       <HeroSection onSearch={handleSearch} />
+      <Text/>
       <div className="container mt-4">
         <div className="row">
           <div className="col-12">
