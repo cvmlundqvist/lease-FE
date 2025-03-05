@@ -4,7 +4,7 @@ import './CarCard.css';
 import PriceAccordion from './PriceAccordion';
 import SupplierAccordion from './SupplierAccordion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faQuestion } from '@fortawesome/free-solid-svg-icons';
+import { faQuestion, faCircleQuestion, faCircle } from '@fortawesome/free-solid-svg-icons';
 
 
 const CarCard = ({ car }) => {
@@ -61,7 +61,7 @@ const CarCard = ({ car }) => {
             Bindningstid: {car.contractMonths} mån<br />
             {car.mileagePerMonths && <span>{car.mileagePerMonths} mil per månad<br /></span> }
             {car.electricRange && car.electricRange !== 0 && <span>Räckvidd: {car.electricRange} km<br /></span>}
-            <b>Jämförbart pris för privatleasing: {car.totalPrice * 0.75}</b> <FontAwesomeIcon icon={faQuestion} />
+            <b>Jämförbart pris för privatleasing: {car.totalPrice * 0.75}</b> <FontAwesomeIcon icon={faCircleQuestion} />
           </Card.Text>
         </Card.Body>
       </Card>
