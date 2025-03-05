@@ -1,0 +1,81 @@
+.price-accordion {
+    margin-bottom: 1rem;
+  }
+  
+  .price-accordion-header {
+    font-size: 1.2rem;
+    padding: 1rem;
+  }
+  
+  .price-accordion-body {
+    padding: 1rem;
+  }
+  
+  .additional-costs-title {
+    margin-top: 1rem;
+    font-weight: bold;
+  }
+  
+  .price-line {
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    margin: 0.5rem 0;
+  }
+  
+  /* Ikonrad med centrerade, lika stora loggor */
+  .icons-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 1rem;
+  }
+  
+  .icon-item {
+    display: flex;
+    align-items: center;
+  }
+  
+  .cost-icon {
+    font-size: 30px; /* Alla ikoner lika stora */
+  }
+  
+  .icon-label {
+    margin-left: 0.3rem;
+    font-size: 1rem;
+  }
+  
+  .disclaimer {
+    margin-top: 1.5rem;
+  }
+  
+  .small-disclaimer {
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    color: gray;
+  }
+  
+  /* Mobilanpassning */
+  @media (max-width: 576px) {
+    .price-accordion-header {
+      font-size: 1rem;
+      padding: 0.75rem;
+    }
+    .price-accordion-body {
+      padding: 0.75rem;
+    }
+    .price-line {
+      font-size: 24px;
+    }
+    .cost-icon {
+      font-size: 24px;
+    }
+    .icon-label {
+      font-size: 0.9rem;
+    }
+    .icon-item {
+      margin: 0 0.5rem;
+    }
+  }
+  
