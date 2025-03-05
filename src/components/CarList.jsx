@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react';
-import { Button, Pagination } from 'react-bootstrap';
+import { Pagination } from 'react-bootstrap';
 import api from '../services/api';
 import CarCard from './CarCard';
 import Fuse from 'fuse.js';
-import './CarList.css'
+import './CarList.css';
 
 // Hjälpfunktion för att normalisera söksträngar
 const preprocessQuery = (query) => {
@@ -19,7 +19,6 @@ const CarList = ({ filters }) => {
   const [filteredCars, setFilteredCars] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [sortOrder, setSortOrder] = useState('asc'); // 'asc': Billigast först, 'desc': Dyrast först
 
   // Paginering
   const [currentPage, setCurrentPage] = useState(1);
@@ -68,18 +67,31 @@ const CarList = ({ filters }) => {
   // Applicera filter, sortering och "stitch" med bilmodellsdata
   useEffect(() => {
     const applyFiltersAndStitch = async () => {
+      // Rensa gamla resultat innan ny sökning startar
+      setFilteredCars([]);
+      
       let filtered = [...cars];
 
       // Fuzzy search med Fuse.js
       if (debouncedFilters && debouncedFilters.searchQuery) {
         const query = preprocessQuery(debouncedFilters.searchQuery);
+        // Kombinera brand och model till ett nytt fält "fullName"
+        const carsForFuse = filtered.map(car => ({
+          ...car,
+          fullName: `${car.brand} ${car.model}`
+        }));
         const fuseOptions = {
-          keys: ['brand', 'model'],
-          threshold: 0.4,
+          keys: ['fullName'],
+          threshold: 0.3, // Justera tröskeln vid behov
+          includeScore: true,
         };
-        const fuse = new Fuse(filtered, fuseOptions);
+        const fuse = new Fuse(carsForFuse, fuseOptions);
         const fuseResults = fuse.search(query);
-        filtered = fuseResults.map(result => result.item);
+        // Bevara även score för relevanssortering
+        filtered = fuseResults.map(result => ({ ...result.item, fuseScore: result.score }));
+      } else {
+        // Rensa eventuell tidigare fuseScore om ingen sökning görs
+        filtered = filtered.map(({ fuseScore, ...rest }) => rest);
       }
 
       // Övriga filter
@@ -128,20 +140,11 @@ const CarList = ({ filters }) => {
         }
       }
 
-      // Deduplicera: gruppera bilar efter brand, model, powertrain och transmission.
-      const deduped = Object.values(
-        filtered.reduce((acc, car) => {
-          const key = `${car.brand}-${car.model}-${car.powertrain}-${car.transmission}`;
-          if (!acc[key] || car.totalPrice < acc[key].totalPrice) {
-            acc[key] = car;
-          }
-          return acc;
-        }, {})
-      );
+      // Dedupliceringen togs bort enligt tidigare önskemål
 
       // Hämta och kombinera data från /car-models/search
       const stitchedCars = await Promise.all(
-        deduped.map(async (car) => {
+        filtered.map(async (car) => {
           const cacheKey = `${car.brand}-${car.model}`;
           if (carModelCache.current[cacheKey]) {
             const carModel = carModelCache.current[cacheKey];
@@ -186,21 +189,24 @@ const CarList = ({ filters }) => {
         })
       );
 
-      // Dela upp listan: bilar med totalPrice !== 0 och de med totalPrice === 0
-      const nonZeroCars = stitchedCars.filter(car => car.totalPrice !== 0);
-      const zeroPriceCars = stitchedCars.filter(car => car.totalPrice === 0);
-
-      // Sortera de med icke-noll priser
-      const sortedNonZero = nonZeroCars.sort((a, b) => {
-        if (sortOrder === 'asc') {
-          return a.totalPrice - b.totalPrice;
-        } else {
-          return b.totalPrice - a.totalPrice;
-        }
-      });
-
-      // Slå ihop listan, nollpriserna hamnar sist
-      const finalSortedCars = [...sortedNonZero, ...zeroPriceCars];
+      let finalSortedCars = [];
+      // Om en sökning gjorts, sortera på relevans (fuseScore) och vid lika score på pris (billigast först)
+      if (debouncedFilters && debouncedFilters.searchQuery) {
+        finalSortedCars = stitchedCars.sort((a, b) => {
+          const scoreA = a.fuseScore !== undefined ? a.fuseScore : Infinity;
+          const scoreB = b.fuseScore !== undefined ? b.fuseScore : Infinity;
+          if (scoreA === scoreB) {
+            return a.totalPrice - b.totalPrice;
+          }
+          return scoreA - scoreB;
+        });
+      } else {
+        // Sortera på pris om ingen sökning gjorts
+        const nonZeroCars = stitchedCars.filter(car => car.totalPrice !== 0);
+        const zeroPriceCars = stitchedCars.filter(car => car.totalPrice === 0);
+        const sortedNonZero = nonZeroCars.sort((a, b) => a.totalPrice - b.totalPrice);
+        finalSortedCars = [...sortedNonZero, ...zeroPriceCars];
+      }
 
       setFilteredCars(finalSortedCars);
     };
@@ -208,7 +214,7 @@ const CarList = ({ filters }) => {
     if (cars.length > 0) {
       applyFiltersAndStitch();
     }
-  }, [debouncedFilters, cars, sortOrder]);
+  }, [debouncedFilters, cars]);
 
   if (loading) {
     return <div className="text-center mt-5">Laddar bilar...</div>;
@@ -229,17 +235,6 @@ const CarList = ({ filters }) => {
       <div className="mb-3">
         <h5>Antal träffar: {filteredCars.length}</h5>
       </div>
-      {/* Sorteringsknapp, om du vill ha den - annars kan den kommenteras bort */}
-      {/*
-      <div className="d-flex justify-content-end mb-3">
-        <Button
-          variant="outline-primary"
-          onClick={() => setSortOrder(prev => (prev === 'asc' ? 'desc' : 'asc'))}
-        >
-          Sortera: {sortOrder === 'asc' ? "Billigast först" : "Dyrast först"}
-        </Button>
-      </div>
-      */}
       <div className="row">
         {filteredCars.length === 0 ? (
           <div className="col-12">
@@ -262,13 +257,13 @@ const CarList = ({ filters }) => {
             />
             {[...Array(totalPages).keys()].map(num => (
               <Pagination.Item 
-  key={num + 1} 
-  active={num + 1 === currentPage} 
-  onClick={() => setCurrentPage(num + 1)}
-  style={num + 1 === currentPage ? { backgroundColor: '#343a40', borderColor: '#343a40', color: 'white' } : {}}
->
-  {num + 1}
-</Pagination.Item>
+                key={num + 1} 
+                active={num + 1 === currentPage} 
+                onClick={() => setCurrentPage(num + 1)}
+                style={num + 1 === currentPage ? { backgroundColor: '#343a40', borderColor: '#343a40', color: 'white' } : {}}
+              >
+                {num + 1}
+              </Pagination.Item>
             ))}
             <Pagination.Next 
               onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
