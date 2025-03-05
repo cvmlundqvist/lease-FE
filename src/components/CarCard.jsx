@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { Card, Modal, Button, Row, Col } from 'react-bootstrap';
 import './CarCard.css';
+import PriceAccordion from './PriceAccordion';
 import SupplierAccordion from './SupplierAccordion';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faQuestion } from '@fortawesome/free-solid-svg-icons';
+
 
 const CarCard = ({ car }) => {
   const [showModal, setShowModal] = useState(false);
@@ -46,7 +50,7 @@ const CarCard = ({ car }) => {
         )}
         <Card.Img 
           variant="top" 
-          src={car.imageUrl || 'logo-svart_text.png'}
+          src={car.imageUrl || 'bildsaknas.jfif'}
           alt={`${car.brand} ${car.model}`} 
           style={{ height: '200px', objectFit: 'scale-down' }} 
         />
@@ -57,6 +61,7 @@ const CarCard = ({ car }) => {
             Bindningstid: {car.contractMonths} mån<br />
             {car.mileagePerMonths && <span>{car.mileagePerMonths} mil per månad<br /></span> }
             {car.electricRange && car.electricRange !== 0 && <span>Räckvidd: {car.electricRange} km<br /></span>}
+            <b>Jämförbart pris för privatleasing: {car.totalPrice * 0.75}</b> <FontAwesomeIcon icon={faQuestion} />
           </Card.Text>
         </Card.Body>
       </Card>
@@ -134,6 +139,7 @@ const CarCard = ({ car }) => {
 
             </Row>
           </div>
+          <PriceAccordion productType={car.productType} totalPrice={car.totalPrice} />
           <SupplierAccordion supplier={car.supplier}/>
           <div className="d-flex justify-content-center">
             <Button as="a" href={car.productUrl} target="_blank">

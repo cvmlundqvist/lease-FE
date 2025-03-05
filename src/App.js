@@ -80,7 +80,7 @@ function App() {
   return (
     <div>
       <HeroSection onSearch={handleSearch} />
-      <Text/>
+   
       <div className="container mt-4">
         <div className="row">
           <div className="col-12">

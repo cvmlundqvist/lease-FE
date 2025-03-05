@@ -17,7 +17,7 @@ const HeroSection = ({ onSearch }) => {
     <div
       className="hero-section"
       style={{
-        background: "url('/AUDI.webp') center center/cover no-repeat",
+        background: "url('/AUDI.webp') center/cover no-repeat",
         position: 'relative',
         height: '48vh',
       }}
@@ -29,20 +29,21 @@ const HeroSection = ({ onSearch }) => {
         <h1 className="display-4 fw-bold">Hitta din drömbil</h1>
         <p className="lead">Enkelt. Smidigt. Moderna leasinglösningar.</p>
         <Form
-        onSubmit={(e) => e.preventDefault()}
-        className="d-flex justify-content-center mt-4"
+          onSubmit={(e) => e.preventDefault()}
+          className="d-flex justify-content-center mt-4"
         >
-        <FormControl
-        type="search"
-        placeholder="Sök efter märke eller modell"
-        className="me-2 search-input"
-        aria-label="Sök"
-        value={query}
-        onChange={handleChange}
-         />
+          <FormControl
+            type="search"
+            placeholder="Sök efter märke eller modell"
+            className="me-2 search-input"
+            aria-label="Sök"
+            value={query}
+            onChange={handleChange}
+          />
         </Form>
-
+   
       </Container>
+
       {/* Dark overlay */}
       <div
         style={{
@@ -55,6 +56,7 @@ const HeroSection = ({ onSearch }) => {
           zIndex: 1,
         }}
       />
+
     </div>
   );
 };
